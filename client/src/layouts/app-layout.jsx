@@ -3,12 +3,16 @@ import { PlusIcon } from "lucide-react";
 import BottomNav from "@/components/bottom-nav";
 import Header from "@/components/header";
 import SidebarNav from "@/components/sidebar-nav";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import ThreadForm from "@/components/thread-form";
 import { useCreateThread } from "@/hooks/use-create-thread";
 
 const AppLayout = () => {
-
   const thread = useCreateThread();
 
   return (
@@ -20,8 +24,6 @@ const AppLayout = () => {
           <Outlet />
         </div>
         <BottomNav onCreateClick={thread.openDialog} />
-
-
 
         <Dialog open={thread.open} onOpenChange={thread.setOpen}>
           <DialogContent className="sm:max-w-lg p-0 bg-transparent border-none shadow-none gap-0">
@@ -43,7 +45,6 @@ const AppLayout = () => {
             <ThreadForm />
           </DialogContent>
         </Dialog>
-
       </main>
       {/* Floating Action Button (Optional) */}
       <div className="hidden md:inline-flex fixed bottom-8 right-8">
@@ -57,7 +58,6 @@ const AppLayout = () => {
           />
         </button>
       </div>
-
     </div>
   );
 };
