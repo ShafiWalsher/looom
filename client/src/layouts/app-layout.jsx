@@ -6,6 +6,7 @@ import SidebarNav from "@/components/sidebar-nav";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -26,18 +27,24 @@ const AppLayout = () => {
         <BottomNav onCreateClick={thread.openDialog} />
 
         <Dialog open={thread.open} onOpenChange={thread.setOpen}>
-          <DialogContent className="sm:max-w-lg p-0 bg-transparent border-none shadow-none gap-0">
-            <DialogHeader className="px-5 py-4 border-b border-white/10 bg-neutral-950 rounded-t-2xl">
+          <DialogContent
+            className="sm:max-w-lg p-0 bg-transparent border-none shadow-none gap-0"
+            showCloseButton={false}
+          >
+            <DialogHeader className="px-5 py-4 border-b border-black/10 bg-white rounded-t-2xl">
               <div className="flex items-center justify-between w-full">
                 <button
                   onClick={thread.closeDialog}
-                  className="text-sm text-gray-400 hover:text-white"
+                  className="text-sm text-gray-800 hover:text-black cursor-pointer"
                 >
                   Cancel
                 </button>
-                <DialogTitle className="text-sm font-semibold text-white">
+                <DialogTitle className="text-sm font-bold">
                   New thread
                 </DialogTitle>
+                <DialogDescription className="sr-only">
+                  New thread form
+                </DialogDescription>
                 <div className="w-12" />
               </div>
             </DialogHeader>
@@ -50,7 +57,7 @@ const AppLayout = () => {
       <div className="hidden md:inline-flex fixed bottom-8 right-8">
         <button
           onClick={thread.openDialog}
-          className="bg-white border border-gray-300 px-6 py-4 rounded-lg hover:shadow-md cursor-pointer group transition-all duration-150"
+          className="bg-white border border-gray-400 px-6 py-4 rounded-lg hover:shadow-md cursor-pointer group transition-all duration-150"
         >
           <PlusIcon
             className="text-gray-700 group-hover:text-black transition-colors duration-100"

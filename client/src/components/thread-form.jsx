@@ -1,32 +1,54 @@
+import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Smile, MapPin, List } from "lucide-react";
 
 export default function ThreadForm() {
-    return (
-        <div className="bg-neutral-950 text-white rounded-b-2xl overflow-hidden border border-white/10">
+  const [content, setContent] = useState("");
 
-            {/* User row */}
-            <div className="px-5 pt-4 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gray-200" />
-                <div className="text-sm font-medium">user_name</div>
-                <span className="text-gray-400 text-sm">Add a topic</span>
-            </div>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logic for posting goes here
+    console.log("Posting:", content);
+    setContent(""); // Clear form after submit
+  };
 
-            {/* Text area */}
-            <div className="px-5 pt-3">
-                <Textarea
-                    placeholder="What’s new?"
-                    className="bg-transparent border-none focus-visible:ring-0 text-base resize-none min-h-22.5"
-                />
-            </div>
-
-            {/* Toolbar */}
-            <div className="px-5 py-4 flex items-center justify-end border-t border-white/10">
-                <Button className="bg-white text-black hover:bg-gray-200 rounded-full px-5">
-                    Post
-                </Button>
-            </div>
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-b-2xl overflow-hidden w-full max-w-[620px]"
+    >
+      <div className="flex gap-3 px-5 pt-4">
+        {/* Left Column: Avatar & Thread Line */}
+        <div className="flex flex-col items-center">
+          <div className="w-9 h-9 rounded-full bg-gray-400 shrink-0" />
+          <div className="w-[2px] grow bg-black/10 my-2 rounded-full" />
         </div>
-    );
+
+        {/* Right Column: Content */}
+        <div className="flex-1 flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold">user_name</span>
+          </div>
+
+          <Textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="What’s new?"
+            className="bg-transparent border-none p-0 focus-visible:ring-0 leading-relaxed resize-none min-h-[80px] placeholder:text-gray-500"
+          />
+        </div>
+      </div>
+
+      {/* Toolbar / Footer */}
+      <div className="px-5 py-3 flex items-center justify-end border-t border-black/10">
+        <Button
+          type="submit"
+          disabled={!content.trim()}
+          className="bg-black text-white hover:bg-gray-800 cursor-pointer disabled:opacity-50 rounded-full px-6 font-semibold text-sm transition-all"
+        >
+          Post
+        </Button>
+      </div>
+    </form>
+  );
 }
