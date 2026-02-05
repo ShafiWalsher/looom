@@ -1,7 +1,7 @@
-import { pool } from "../db";
+import { pool } from "../db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { asyncHandler } from "../middleware/async-handler";
+import { asyncHandler } from "../middleware/async-handler.js";
 
 export const register = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
