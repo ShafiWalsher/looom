@@ -1,10 +1,10 @@
+import { pool } from "../db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { pool } from "../db.js";
+import { asyncHandler } from "../middleware/async-handler";
 
-export async function register(req, res) {
+export const register = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
-
   const hash = await bcrypt.hash(password, 10);
 
   const result = await pool.query(
@@ -15,12 +15,12 @@ export async function register(req, res) {
   );
 
   res.status(201).json(result.rows[0]);
-}
+});
 
-export async function login(req, res) {
+export const login = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
-  const result = await pool.query("SELECT * FROM users WHERE username = $1", [
+  const result = await pool.query("SELECT * FROM users WHERE username=$1", [
     username,
   ]);
 
@@ -31,6 +31,5 @@ export async function login(req, res) {
   }
 
   const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET);
-
   res.json({ token });
-}
+});

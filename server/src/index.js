@@ -3,7 +3,9 @@ import express from "express";
 import { pool } from "./db.js";
 import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
+import postRoutes from "./routes/posts.routes.js";
 import { auth } from "./middleware/auth.js";
+import { errorHandler } from "./middleware/error.js";
 
 const app = express();
 app.use(express.json());
@@ -12,11 +14,17 @@ app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
 
+// auth routes
 app.use("/api/v1/auth", authRoutes);
+
+// posts routes
+app.use("/api/v1/posts", postRoutes);
 
 app.get("/protected", auth, (req, res) => {
   res.json({ message: "You are authenticated", user: req.user });
 });
+
+app.use(errorHandler); // must be last
 
 const PORT = process.env.PORT || 3000;
 
