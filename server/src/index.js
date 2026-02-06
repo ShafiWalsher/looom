@@ -4,6 +4,7 @@ import { pool } from "./db.js";
 import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/posts.routes.js";
+import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { auth } from "./middleware/auth.js";
 import { errorHandler } from "./middleware/error.js";
 
@@ -19,6 +20,9 @@ app.use("/api/v1/auth", authRoutes);
 
 // posts routes
 app.use("/api/v1/posts", postRoutes);
+
+// Likes and follows routes
+app.use("/api/v1/posts", likesFollowRoutes);
 
 app.get("/protected", auth, (req, res) => {
   res.json({ message: "You are authenticated", user: req.user });
