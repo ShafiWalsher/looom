@@ -7,8 +7,10 @@ import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/:postId/like", auth, toggleLike);
+// Like system (post related)
+router.post("/posts/:postId/like", auth, toggleLike);
 
-router.post("/:user_id/follow", auth, toggleFollow);
+// Follow system (user related)
+router.post("/users/:userId/follow", auth, toggleFollow);
 
 export default router;

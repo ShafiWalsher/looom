@@ -90,7 +90,7 @@ export const getReplies = asyncHandler(async (req, res) => {
     ORDER BY p.created_at ASC
     LIMIT $3 OFFSET $4
     `,
-    [req.params.id, userId, limit, offset],
+    [req.params.postId, userId, limit, offset],
   );
 
   res.json(result.rows);
@@ -108,7 +108,7 @@ export const getPostThread = asyncHandler(async (req, res) => {
      FROM posts p
      JOIN users u ON u.user_id = p.user_id
      WHERE p.post_id=$1`,
-    [req.params.id, userId],
+    [req.params.postId, userId],
   );
 
   if (!post.rowCount) return res.status(404).json({ error: "Post not found" });
@@ -122,7 +122,7 @@ export const getPostThread = asyncHandler(async (req, res) => {
     ORDER BY p.created_at ASC
     LIMIT $3 OFFSET $4
     `,
-    [req.params.id, userId, limit, offset],
+    [req.params.postId, userId, limit, offset],
   );
 
   res.json({
@@ -160,7 +160,7 @@ export const getUserPosts = asyncHandler(async (req, res) => {
 export const deletePost = asyncHandler(async (req, res) => {
   const result = await pool.query(
     `DELETE FROM posts WHERE post_id=$1 AND user_id=$2 RETURNING post_id`,
-    [req.params.id, req.user.user_id],
+    [req.params.postId, req.user.user_id],
   );
 
   if (!result.rowCount)

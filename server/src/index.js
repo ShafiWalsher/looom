@@ -22,11 +22,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/posts", postRoutes);
 
 // Likes and follows routes
-app.use("/api/v1/posts", likesFollowRoutes);
-
-app.get("/protected", auth, (req, res) => {
-  res.json({ message: "You are authenticated", user: req.user });
-});
+app.use("/api/v1", likesFollowRoutes);
 
 app.use(errorHandler); // must be last
 
