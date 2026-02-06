@@ -33,6 +33,9 @@ export const createPost = asyncHandler(async (req, res) => {
 // Global Feed (Top-Level Posts)
 //
 export const getFeed = asyncHandler(async (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+  const offset = parseInt(req.query.offset) || 0;
+
   const result = await pool.query(
     `
     SELECT 
@@ -46,7 +49,9 @@ export const getFeed = asyncHandler(async (req, res) => {
     JOIN users u ON u.user_id = p.user_id
     WHERE p.parent_id IS NULL
     ORDER BY p.created_at DESC
+    LIMIT $1 OFFSET $2
     `,
+    [limit, offset],
   );
 
   res.json(result.rows);
@@ -64,13 +69,19 @@ export const getReplies = asyncHandler(async (req, res) => {
     return res.status(404).json({ error: "Post not found" });
   }
 
+  const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+  const offset = parseInt(req.query.offset) || 0;
+
   const result = await pool.query(
-    `SELECT p.post_id, p.content, p.likes_count, p.replies_count, p.created_at, u.username
-     FROM posts p
-     JOIN users u ON u.user_id=p.user_id
-     WHERE p.parent_id=$1
-     ORDER BY p.created_at ASC`,
-    [req.params.id],
+    `
+    SELECT p.post_id, p.content, p.likes_count, p.replies_count, p.created_at, u.username
+    FROM posts p
+    JOIN users u ON u.user_id=p.user_id
+    WHERE p.parent_id=$1
+    ORDER BY p.created_at ASC
+    LIMIT $2 OFFSET $3
+    `,
+    [req.params.id, limit, offset],
   );
 
   res.json(result.rows);
@@ -82,7 +93,11 @@ export const getReplies = asyncHandler(async (req, res) => {
 export const getPostThread = asyncHandler(async (req, res) => {
   const postId = req.params.id;
 
-  // Get main post
+  // Pagination for replies
+  const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+  const offset = parseInt(req.query.offset) || 0;
+
+  // Fetch main post
   const postResult = await pool.query(
     `SELECT p.post_id, p.content, p.likes_count, p.replies_count, p.created_at, u.username
      FROM posts p
@@ -95,19 +110,24 @@ export const getPostThread = asyncHandler(async (req, res) => {
     return res.status(404).json({ error: "Post not found" });
   }
 
-  // Get top-level replies
+  // Fetch direct replies (paginated)
   const repliesResult = await pool.query(
     `SELECT p.post_id, p.content, p.likes_count, p.replies_count, p.created_at, u.username
      FROM posts p
      JOIN users u ON u.user_id = p.user_id
      WHERE p.parent_id = $1
-     ORDER BY p.created_at ASC`,
-    [postId],
+     ORDER BY p.created_at ASC
+     LIMIT $2 OFFSET $3`,
+    [postId, limit, offset],
   );
 
   res.json({
     post: postResult.rows[0],
     replies: repliesResult.rows,
+    pagination: {
+      limit,
+      offset,
+    },
   });
 });
 
@@ -115,8 +135,13 @@ export const getPostThread = asyncHandler(async (req, res) => {
 // User Profile Posts (Top-Level Only)
 //
 export const getUserPosts = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+  const offset = parseInt(req.query.offset) || 0;
+
   const user = await pool.query("SELECT user_id FROM users WHERE user_id=$1", [
-    req.params.userId,
+    userId,
   ]);
 
   if (user.rowCount === 0) {
@@ -124,12 +149,21 @@ export const getUserPosts = asyncHandler(async (req, res) => {
   }
 
   const result = await pool.query(
-    `SELECT p.post_id, p.content, p.likes_count, p.replies_count, p.created_at, u.username
-     FROM posts p
-     JOIN users u ON u.user_id=p.user_id
-     WHERE p.user_id=$1 AND p.parent_id IS NULL
-     ORDER BY p.created_at DESC`,
-    [req.params.userId],
+    `
+    SELECT 
+      p.post_id,
+      p.content,
+      p.likes_count,
+      p.replies_count,
+      p.created_at,
+      u.username
+    FROM posts p
+    JOIN users u ON u.user_id = p.user_id
+    WHERE p.user_id=$1 AND p.parent_id IS NULL
+    ORDER BY p.created_at DESC
+    LIMIT $2 OFFSET $3
+    `,
+    [userId, limit, offset],
   );
 
   res.json(result.rows);

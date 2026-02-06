@@ -3,6 +3,7 @@ import {
   createPost,
   deletePost,
   getFeed,
+  getPostThread,
   getReplies,
   getUserPosts,
 } from "../controllers/posts.controller.js";
