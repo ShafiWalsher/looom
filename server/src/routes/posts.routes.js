@@ -20,6 +20,9 @@ router.get("/feed", getFeed);
 // Direct replies (conversation view)
 router.get("/:id/replies", getReplies);
 
+// get post thread (post + all replies)
+router.get("/:id", getPostThread);
+
 // User profile posts
 router.get("/user/:userId", getUserPosts);
 
