@@ -19,15 +19,15 @@ router.post("/", auth, requireFields(["content"]), createPost);
 router.get("/feed", getFeed);
 
 // Direct replies (conversation view)
-router.get("/:id/replies", getReplies);
+router.get("/:postId/replies", getReplies);
 
 // get post thread (post + all replies)
-router.get("/:id", getPostThread);
+router.get("/:postId", getPostThread);
 
 // User profile posts
 router.get("/user/:userId", getUserPosts);
 
 // Delete own post
-router.delete("/:id", auth, deletePost);
+router.delete("/:postId", auth, deletePost);
 
 export default router;
