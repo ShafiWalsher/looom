@@ -1,65 +1,41 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./layouts/app-layout";
 import Home from "./pages/home";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import CreatePost from "./pages/create-post";
 
 const isAuth = () => !!localStorage.getItem("token");
 
-const PrivateRoute = ({ children }) => {
-  return isAuth() ? children : <Navigate to="/login" />;
-};
+const PrivateRoute = ({ children }) =>
+  isAuth() ? children : <Navigate to="/login" replace />;
 
-const PublicRoute = ({ children }) => {
-  return !isAuth() ? children : <Navigate to="/" />;
-};
+const PublicRoute = ({ children }) =>
+  !isAuth() ? children : <Navigate to="/" replace />;
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* PUBLIC AUTH PAGES */}
+        <Route
+          path="/login"
+          element={<PublicRoute>{/* <Login /> */}</PublicRoute>}
+        />
+        <Route
+          path="/register"
+          element={<PublicRoute>{/* <Register /> */}</PublicRoute>}
+        />
+
+        {/* ALL NORMAL PAGES */}
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
 
-          {/* <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
+          {/* ONLY PRIVATE PAGE */}
           <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
+            path="/create"
+            element={<PrivateRoute>{/* <CreatePost /> */}</PrivateRoute>}
           />
-
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Feed />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile/:id"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/post/:id"
-            element={
-              <PrivateRoute>
-                <Thread />
-              </PrivateRoute>
-            }
-          /> */}
         </Route>
       </Routes>
     </BrowserRouter>
