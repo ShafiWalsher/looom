@@ -2,9 +2,11 @@ import { pool } from "../db.js";
 import { asyncHandler } from "../middleware/async-handler.js";
 
 export const toggleLike = asyncHandler(async (req, res) => {
-  const postId = req.params.id;
+  const postId = req.params.postId;
   const userId = req.user.user_id;
   const { action } = req.body;
+
+  res.json({ postId, userId, action });
 
   if (!["like", "unlike"].includes(action)) {
     return res.status(400).json({ error: "Invalid action" });
@@ -43,7 +45,7 @@ export const toggleLike = asyncHandler(async (req, res) => {
 });
 
 export const toggleFollow = asyncHandler(async (req, res) => {
-  const targetUser = req.params.id;
+  const targetUser = req.params.userId;
   const userId = req.user.user_id;
   const { action } = req.body;
 
