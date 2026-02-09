@@ -1,45 +1,44 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./layouts/app-layout";
+import AuthLayout from "./layouts/auth-layout";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import CreatePost from "./pages/create-post";
-
-const isAuth = () => !!localStorage.getItem("token");
+import { isAuthenticated } from "./services/auth.service";
 
 const PrivateRoute = ({ children }) =>
-  isAuth() ? children : <Navigate to="/login" replace />;
+  isAuthenticated() ? children : <Navigate to="/login" replace />;
 
 const PublicRoute = ({ children }) =>
-  !isAuth() ? children : <Navigate to="/" replace />;
+  !isAuthenticated() ? children : <Navigate to="/" replace />;
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* PUBLIC AUTH PAGES */}
-        <Route
-          path="/login"
-          element={<PublicRoute>{/* <Login /> */}</PublicRoute>}
-        />
-        <Route
-          path="/register"
-          element={<PublicRoute>{/* <Register /> */}</PublicRoute>}
-        />
 
-        {/* ALL NORMAL PAGES */}
+        {/* AUTH LAYOUT */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        </Route>
+
+        {/* APP LAYOUT (PUBLIC PAGES) */}
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
 
           {/* ONLY PRIVATE PAGE */}
           <Route
             path="/create"
-            element={<PrivateRoute>{/* <CreatePost /> */}</PrivateRoute>}
+            element={
+              <PrivateRoute>
+                <div /> {/* dialog trigger route */}
+              </PrivateRoute>
+            }
           />
         </Route>
+
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
