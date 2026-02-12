@@ -1,24 +1,32 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { loginUser } from '@/services/auth.service';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [identifier, setIdentifier] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setErrorMessage("");
 
-        // Simulate API call
-        setTimeout(() => {
+        if (!username || !password) return;
+
+        try {
+            setLoading(true);
+            await loginUser({ username, password });
+            navigate("/");
+        } catch (error) {
+            setErrorMessage(error.message || "Login failed");
+        } finally {
             setLoading(false);
-            console.log('Logged in with:', { identifier, password });
-            alert('Login logic would go here.');
-        }, 1500);
+        }
     };
 
     return (
@@ -31,8 +39,8 @@ const Login = () => {
                 <Input
                     type="text"
                     placeholder="Username, phone or email"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                     className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
                 />
@@ -49,6 +57,11 @@ const Login = () => {
                     {loading ? 'Logging in...' : 'Log in'}
                 </Button>
             </form>
+            {errorMessage && (
+                <p className="text-red-500 text-sm mt-2 text-center">
+                    {errorMessage}
+                </p>
+            )}
 
             <div className="mt-4 text-center">
                 <a href="#" className="text-sm text-gray-500 hover:underline">

@@ -3,33 +3,41 @@ import { Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
+import { useNavigate } from "react-router-dom";
+import { registerUser } from '@/services/auth.service';
+
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setErrorMessage("");
 
-    // Simulate API call
-    setTimeout(() => {
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await registerUser({ username, password });
+      navigate("/login");
+    } catch (error) {
+      setErrorMessage(error.message || "Registration failed");
+    } finally {
       setLoading(false);
-      console.log('Registered with:', formData);
-      alert('Registration logic would go here.');
-    }, 1500);
+    }
   };
 
   return (
@@ -40,41 +48,49 @@ const Register = () => {
 
       <form onSubmit={handleRegister} className="w-full space-y-2">
 
+
         <Input
-          name="username"
           type="text"
           placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
           className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
         />
 
         <Input
-          name="password"
           type="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
           className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
         />
+
         <Input
-          name="confirmPassword"
           type="password"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
+          placeholder="Confirm password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           required
           className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
         />
 
         <div className="pt-2">
-          <Button type="submit" disabled={loading} className="w-full h-14 px-4 py-4 rounded-lg bg-black/80 text-gray-400 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full h-14 px-4 py-4 rounded-lg bg-black/80 text-gray-400 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer"
+          >
             {loading ? 'Creating account...' : 'Sign up'}
           </Button>
         </div>
       </form>
+      {errorMessage && (
+        <p className="text-red-500 text-sm mt-2 text-center">
+          {errorMessage}
+        </p>
+      )}
 
       <div className="w-full flex items-center justify-center my-6">
         <div className="h-px bg-gray-700 grow"></div>
@@ -85,7 +101,11 @@ const Register = () => {
       <div className="w-full text-center">
         <p className="text-gray-500 text-sm mb-2">Already have an account?</p>
         <Link to="/login" className="w-full block">
-          <Button variant="secondary" type="button" className="w-full h-14 px-4 py-4 rounded-lg border border-black/40 bg-white hover:bg-white hover:border-black/60 cursor-pointer">
+          <Button
+            variant="secondary"
+            type="button"
+            className="w-full h-14 px-4 py-4 rounded-lg border border-black/40 bg-white hover:bg-white hover:border-black/60 cursor-pointer"
+          >
             Log in
           </Button>
         </Link>
