@@ -1,15 +1,32 @@
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useCreateThread } from "@/hooks/use-create-thread";
 
 export default function ThreadForm() {
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const thread = useCreateThread(); // controls dialog
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic for posting goes here
-    console.log("Posting:", content);
-    setContent(""); // Clear form after submit
+    if (!content.trim()) return;
+
+    try {
+      setLoading(true);
+      setErrorMessage("");
+
+      await createPost({ content });
+
+      setContent("");
+      thread.closeDialog(); // close modal
+    } catch (err) {
+      setErrorMessage(err.message || "Failed to post");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,8 +56,11 @@ export default function ThreadForm() {
         </div>
       </div>
 
-      {/* Toolbar / Footer */}
+      {/* Footer */}
       <div className="px-5 py-3 flex items-center justify-end border-t border-black/10">
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-2">{errorMessage}</p>
+        )}
         <Button
           type="submit"
           disabled={!content.trim()}
