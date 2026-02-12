@@ -76,21 +76,16 @@ const Register = () => {
           className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
         />
 
-        <div className="pt-2">
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full h-14 px-4 py-4 rounded-lg bg-black/80 text-gray-400 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer"
-          >
-            {loading ? 'Creating account...' : 'Sign up'}
-          </Button>
-        </div>
+        {errorMessage && (
+          <p className="text-red-500 text-sm mt-2 text-center">
+            {errorMessage}
+          </p>
+        )}
+        <Button type="submit" disabled={loading} className="w-full h-14 px-4 py-4 rounded-lg bg-black/80 text-gray-400 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
+          {loading ? 'Creating account...' : 'Sign up'}
+        </Button>
       </form>
-      {errorMessage && (
-        <p className="text-red-500 text-sm mt-2 text-center">
-          {errorMessage}
-        </p>
-      )}
+
 
       <div className="w-full flex items-center justify-center my-6">
         <div className="h-px bg-gray-700 grow"></div>

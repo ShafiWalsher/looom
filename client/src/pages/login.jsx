@@ -53,15 +53,17 @@ const Login = () => {
                     className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
                 />
 
+                {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2 text-center">
+                        {errorMessage}
+                    </p>
+                )}
+
                 <Button type="submit" disabled={loading} className="w-full h-14 px-4 py-4 rounded-lg bg-black/80 text-gray-400 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
                     {loading ? 'Logging in...' : 'Log in'}
                 </Button>
             </form>
-            {errorMessage && (
-                <p className="text-red-500 text-sm mt-2 text-center">
-                    {errorMessage}
-                </p>
-            )}
+
 
             <div className="mt-4 text-center">
                 <a href="#" className="text-sm text-gray-500 hover:underline">
