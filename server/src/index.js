@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import { pool } from "./db.js";
 import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -7,7 +8,23 @@ import postRoutes from "./routes/posts.routes.js";
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
 
+// allow frontend origin
+const allowedOrigins = ["http://localhost:5173", "http://localhost:3001"];
+
 const app = express();
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
