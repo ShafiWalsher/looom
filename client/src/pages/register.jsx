@@ -55,7 +55,7 @@ const Register = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
+          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200 bg-white"
         />
 
         <Input
@@ -64,7 +64,7 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
+          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200 bg-white"
         />
 
         <Input
@@ -73,7 +73,7 @@ const Register = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200"
+          className="w-full h-14 px-4 py-4 rounded-lg focus-visible:ring-0 focus:border-black/40 transition-colors duration-200 bg-white"
         />
 
         {errorMessage && (

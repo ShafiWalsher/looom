@@ -5,7 +5,6 @@ import { initDatabase } from "../db/init.js";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/posts.routes.js";
 import likesFollowRoutes from "./routes/likes-follow.routes.js";
-import { auth } from "./middleware/auth.js";
 import { errorHandler } from "./middleware/error.js";
 
 const app = express();
