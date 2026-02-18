@@ -30,6 +30,9 @@ export const login = asyncHandler(async (req, res) => {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET);
+  const token = jwt.sign(
+    { user_id: user.user_id, username: user.username },
+    process.env.JWT_SECRET,
+  );
   res.json({ token });
 });
