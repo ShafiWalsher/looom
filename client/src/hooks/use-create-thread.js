@@ -4,18 +4,17 @@ export const useCreateThread = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const open = location.pathname === "/create";
-
   const openDialog = () => {
-    navigate("/create");
+    navigate("/create", {
+      state: { backgroundLocation: location },
+    });
   };
 
   const closeDialog = () => {
-    navigate(-1); // go back to previous route
+    navigate(-1);
   };
 
   return {
-    open,
     openDialog,
     closeDialog,
   };
