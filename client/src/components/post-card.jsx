@@ -17,7 +17,7 @@ export default function PostCard({ post }) {
     const avatarLetter = post.username?.charAt(0).toUpperCase();
 
     return (
-        <article className="group border-b border-gray-100 px-5 py-4 bg-white transition-colors duration-150 cursor-default">
+        <article className="group border-b border-gray-300 last:border-b-0 px-5 py-4 ">
             <div className="flex gap-3">
 
                 {/* Left col: avatar + thread line */}
