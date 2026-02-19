@@ -29,7 +29,7 @@ export default function Home() {
     <div className="min-h-screen w-full flex flex-col items-center py-6">
       <h1 className="text-[15px] font-medium mb-4 shrink-0">Home</h1>
 
-      <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs py-4 px-2 sticky z-100">
+      <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs py-4 px-2 sticky z-10">
         {/* Feed content */}
         {loading && (
           <p className="text-gray-500 text-center text-sm py-10">Loading feed...</p>
