@@ -85,7 +85,7 @@ export default function PostCard({ post }) {
                     </Link>
 
                     {/* Actions */}
-                    <div className="flex items-center -ml-2 mt-1">
+                    <div className="flex items-center gap-3 -ml-2 mt-1">
 
                         {/* LIKE */}
                         <button
