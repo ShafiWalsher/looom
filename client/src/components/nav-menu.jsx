@@ -11,7 +11,7 @@ export default function NavMenu({ iconSize = 22, onCreateClick }) {
                 return (
                     <div
                         key={index}
-                        className={`${active && 'bg-gray-200'} group hover:bg-gray-200 rounded-lg px-4 py-3.5 transition-colors duration-100 cursor-pointer`}
+                        className={`${active && 'bg-gray-200'} group hover:bg-gray-200 rounded-lg px-4 py-3.5 transition-colors duration-100 cursor-pointer w-full md:w-fit flex justify-center items-center`}
                         onClick={isCreate ? onCreateClick : undefined}>
                         <NavItem Icon={Icon} active={active} size={iconSize} />
                     </div>
