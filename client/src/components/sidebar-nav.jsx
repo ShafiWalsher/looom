@@ -1,9 +1,7 @@
-import {
-    MenuIcon,
-} from "lucide-react";
 
 import LooomLogo from "../assets/looom-logo.svg";
 import NavMenu from "./nav-menu";
+import UserMenu from "./user-menu";
 
 const SidebarNav = ({ onCreateClick }) => {
     return (
@@ -14,10 +12,10 @@ const SidebarNav = ({ onCreateClick }) => {
             <div className="flex flex-col gap-3.5">
                 <NavMenu onCreateClick={onCreateClick} iconSize={26} />
             </div>
-            <div className="py-3 -ms-1 transition-colors duration-100 cursor-pointer group">
-                <MenuIcon
-                    className="text-gray-400 group-hover:text-black transition-colors duration-100"
+            <div className="py-3">
+                <UserMenu
                     size={26}
+                    className="text-gray-400 hover:text-black transition-colors"
                 />
             </div>
         </nav>
