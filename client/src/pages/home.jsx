@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     // Fixed container to prevent the whole page from scrolling
-    <div className="min-h-screen w-full flex flex-col items-center py-6">
+    <div className="min-h-screen w-full flex flex-col items-center py-6 px-4">
       <h1 className="text-[15px] font-medium mb-4 shrink-0">Home</h1>
 
       <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs sticky z-10">
