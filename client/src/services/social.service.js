@@ -1,19 +1,7 @@
 import api from "../api/axios";
 
-export const toggleLike = async (postId, action) => {
-  try {
-    const res = await api.post(`/posts/${postId}/like`, { action });
-    return res.data;
-  } catch (err) {
-    throw err.message;
-  }
-};
+export const toggleLike = (postId, action) =>
+  api.post(`/posts/${postId}/like`, { action }).then((r) => r.data);
 
-export const toggleFollow = async (userId, action) => {
-  try {
-    const res = await api.post(`/users/${userId}/follow`, { action });
-    return res.data;
-  } catch (err) {
-    throw err.message;
-  }
-};
+export const toggleFollow = (userId, action) =>
+  api.post(`/users/${userId}/follow`, { action }).then((r) => r.data);

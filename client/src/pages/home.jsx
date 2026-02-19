@@ -72,20 +72,6 @@ export default function Home() {
             {posts.map((post) => (
               <>
                 <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
-                <PostCard key={post.post_id} post={post} />
               </>
             ))}
           </div>
