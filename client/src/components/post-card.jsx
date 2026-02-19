@@ -3,13 +3,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { formatTimeAgo } from "@/lib/utils";
 
-const AVATAR_GRADIENTS = [
-    "from-rose-400 to-pink-600",
-    "from-violet-400 to-purple-600",
-    "from-blue-400 to-cyan-500",
-    "from-emerald-400 to-teal-600",
-    "from-amber-400 to-orange-500",
-];
 
 export default function PostCard({ post }) {
     const [liked, setLiked] = useState(false);
@@ -22,8 +15,6 @@ export default function PostCard({ post }) {
     };
 
     const avatarLetter = post.username?.charAt(0).toUpperCase();
-    const gradient =
-        AVATAR_GRADIENTS[post.username?.charCodeAt(0) % AVATAR_GRADIENTS.length || 0];
 
     return (
         <article className="group border-b border-gray-100 px-5 py-4 bg-white transition-colors duration-150 cursor-default">
@@ -32,11 +23,10 @@ export default function PostCard({ post }) {
                 {/* Left col: avatar + thread line */}
                 <div className="flex flex-col items-center gap-1 shrink-0">
                     <div
-                        className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-sm tracking-tight select-none`}
+                        className={`w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-sm tracking-tight select-none`}
                     >
                         {avatarLetter}
                     </div>
-                    <div className="w-0.5 flex-1 min-h-4 rounded-full bg-gradient-to-b from-gray-200 to-transparent" />
                 </div>
 
                 {/* Right col: content */}
