@@ -48,7 +48,7 @@ export default function PostCard({ post }) {
     };
 
     return (
-        <article className="group border-b border-gray-100 last:border-b-0 px-5 py-4 bg-white">
+        <article className="group border-b border-gray-300 last:border-b-0 px-6 py-5">
             <div className="flex gap-3">
 
                 {/* Avatar */}
