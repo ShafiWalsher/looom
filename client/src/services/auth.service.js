@@ -33,10 +33,8 @@ export const loginUser = async (data) => {
  */
 export const logoutUser = () => {
   localStorage.removeItem("token");
-
-  if (window.location.pathname !== "/login") {
-    window.location.href = "/login";
-  }
+  window.location.replace("/");
+  window.location.reload();
 };
 
 /**
