@@ -1,20 +1,28 @@
 import { NAV_MENU_ITEMS } from "@/constants";
 import NavItem from "./nav-item";
+import { Link, useLocation } from "react-router-dom";
 
 
 export default function NavMenu({ iconSize = 22, onCreateClick }) {
+    const { pathname } = useLocation();
     return (
         <>
             {NAV_MENU_ITEMS.map((menuItem, index) => {
-                const { Icon, active, isCreate } = menuItem;
+                const { Icon, isCreate, url } = menuItem;
+
+                const active = url === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(url);
 
                 return (
-                    <div
+                    <Link
+                        to={isCreate ? "#" : url}
                         key={index}
-                        className={`${active && 'bg-gray-200 hover:bg-gray-200'} group hover:bg-gray-200 rounded-lg px-3.5 py-2 md:px-5 md:py-3 transition-colors duration-100 cursor-pointer w-full md:w-fit flex justify-center items-center`}
-                        onClick={isCreate ? onCreateClick : undefined}>
-                        <NavItem Icon={Icon} active={active} size={iconSize} />
-                    </div>
+                        className={`${isCreate && 'bg-gray-200 hover:bg-gray-200'} group hover:bg-gray-200 rounded-lg px-3.5 py-2 md:px-5 md:py-3 transition-colors duration-100 cursor-pointer w-full md:w-fit flex justify-center items-center`}
+                        onClick={isCreate ? (e) => { e.preventDefault(); onCreateClick(); } : undefined}
+                    >
+                        <NavItem Icon={Icon} active={isCreate || active} size={iconSize} />
+                    </Link>
                 );
             })}
         </>
