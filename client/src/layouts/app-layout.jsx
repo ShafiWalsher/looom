@@ -14,8 +14,10 @@ const AppLayout = () => {
       <main>
         <SidebarNav onCreateClick={thread.openDialog} />
         <Header />
-        <div className="bg-[#fafafa] w-full max-w-180 mx-auto">
-          <Outlet />
+        <div className="bg-[#fafafa]">
+          <div className="w-full max-w-180 mx-auto">
+            <Outlet />
+          </div>
         </div>
         <BottomNav onCreateClick={thread.openDialog} />
 
