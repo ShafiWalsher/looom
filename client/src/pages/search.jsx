@@ -150,34 +150,12 @@ const Search = () => {
                                                 to={`/profile/${user.username}`}
                                                 className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/[0.06] last:border-b-0"
                                             >
-                                                {user.avatar_url ? (
-                                                    <img
-                                                        src={user.avatar_url}
-                                                        alt={user.username}
-                                                        className="w-10 h-10 rounded-full object-cover shrink-0"
-                                                    />
-                                                ) : (
-                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-                                                        {user.username?.charAt(0).toUpperCase()}
-                                                    </div>
-                                                )}
-                                                <div className="flex flex-col min-w-0">
-                                                    <div className="flex items-center gap-1">
-                                                        <span className="text-[14px] font-semibold text-gray-900 truncate">
-                                                            {user.username}
-                                                        </span>
-                                                        {user.verified && (
-                                                            <svg className="w-3.5 h-3.5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                                                                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-                                                            </svg>
-                                                        )}
-                                                    </div>
-                                                    {user.display_name && (
-                                                        <span className="text-[13px] text-gray-400 truncate">
-                                                            {user.display_name}
-                                                        </span>
-                                                    )}
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                                                    {user.username?.charAt(0).toUpperCase()}
                                                 </div>
+                                                <span className="text-[14px] font-semibold text-gray-900 truncate">
+                                                    {user.username}
+                                                </span>
                                             </Link>
                                         </li>
                                     ))}
