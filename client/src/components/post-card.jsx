@@ -5,7 +5,7 @@ import { formatTimeAgo } from "@/lib/utils";
 import { toggleLike } from "@/services/social.service";
 import { isAuthenticated } from "@/services/auth.service";
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, isReply }) {
     const [liked, setLiked] = useState(post.liked);
     const [likeCount, setLikeCount] = useState(post.likes_count || 0);
     const [loading, setLoading] = useState(false);
@@ -23,7 +23,6 @@ export default function PostCard({ post }) {
 
         const nextLiked = !liked;
 
-        // optimistic update
         setLiked(nextLiked);
         setLikeCount((prev) => (nextLiked ? prev + 1 : prev - 1));
         setLoading(true);
@@ -33,12 +32,9 @@ export default function PostCard({ post }) {
                 post.post_id,
                 nextLiked ? "like" : "unlike"
             );
-
-            // sync with server truth
             setLiked(res.liked);
             setLikeCount(res.likes_count);
         } catch (err) {
-            // revert on failure
             setLiked(!nextLiked);
             setLikeCount((prev) => (nextLiked ? prev - 1 : prev + 1));
             console.error(err);
@@ -50,17 +46,19 @@ export default function PostCard({ post }) {
     return (
         <article className="group border-b border-gray-300 last:border-b-0 px-6 py-5">
             <div className="flex gap-3">
-
-                {/* Avatar */}
-                <div className="flex flex-col items-center gap-1 shrink-0">
+                {/* Avatar + connector line */}
+                <div className="flex flex-col items-center shrink-0">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-500 flex items-center justify-center text-white font-bold text-sm">
                         {avatarLetter}
                     </div>
+                    {/* Thread connector line — shown on replies or when the post has replies */}
+                    {(isReply) && (
+                        <div className="w-[2px] flex-1 mt-2 rounded-full bg-black/10" />
+                    )}
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-
                     {/* Header */}
                     <div className="flex items-center justify-between mb-0.5">
                         <div className="flex items-center gap-1.5 min-w-0">
