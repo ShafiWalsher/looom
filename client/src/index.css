@@ -120,4 +120,11 @@
   body {
     @apply bg-background text-foreground text-[15px];
   }
+
+  button {
+    @apply bg-transparent border-0 p-0 cursor-pointer;
+  }
+  a {
+    @apply hover:underline hover:underline-offset-1;
+  }
 }

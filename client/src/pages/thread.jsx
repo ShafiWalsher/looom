@@ -34,6 +34,8 @@ export default function Thread() {
         setReplies((prev) => [...prev, reply]);
     };
 
+    console.log(replies)
+
     if (loading)
         return (
             <div className="min-h-screen w-full flex items-center justify-center">
@@ -77,7 +79,7 @@ export default function Thread() {
             <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs">
 
                 {/* Main post */}
-                <PostCard post={post} />
+                <PostCard post={post} viewPost />
 
                 {/* Separator */}
                 <div className="mx-5 border-t border-black/[0.06]" />

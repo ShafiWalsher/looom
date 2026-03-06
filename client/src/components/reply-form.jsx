@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPost } from "@/services/posts.service";
 import { getUser, isAuthenticated } from "@/services/auth.service";
+import { Send } from "lucide-react";
 
 export default function ReplyForm({ parentId, onReply }) {
     const [content, setContent] = useState("");
@@ -56,9 +57,9 @@ export default function ReplyForm({ parentId, onReply }) {
 
             <button
                 disabled={loading || !content.trim()}
-                className="text-sm font-semibold text-blue-500 disabled:opacity-50"
+                className="text-sm font-semibold disabled:opacity-50 text-black/80 hover:bg-gray-100 p-2 rounded-full transition-all duration-150"
             >
-                Reply
+                <Send size={20} className={`${content.trim() && "rotate-45"} transition-all duration-150`} />
             </button>
         </form>
     );
