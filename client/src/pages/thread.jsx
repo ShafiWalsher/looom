@@ -34,14 +34,13 @@ export default function Thread() {
         setReplies((prev) => [...prev, reply]);
     };
 
-    console.log(replies)
-
     if (loading)
         return (
             <div className="min-h-screen w-full flex items-center justify-center">
                 <p className="text-gray-500 text-sm">Loading thread...</p>
             </div>
         );
+
 
     if (error)
         return (

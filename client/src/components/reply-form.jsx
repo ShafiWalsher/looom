@@ -41,8 +41,8 @@ export default function ReplyForm({ parentId, onReply }) {
             className="border-b border-black/10 px-5 py-4 flex gap-3 items-center"
         >
             <div className="flex flex-col items-center">
-                <div className="w-9 h-9 rounded-full bg-gray-400 shrink-0 text-white font-bold text-xl flex items-center justify-center overflow-hidden">
-                    {user.username.charAt(0).toUpperCase()}
+                <div className={`${content.trim() && 'opacity-100'} opacity-80 w-10 h-10 rounded-full bg-gradient-to-br from-sky-600 to-sky-500 flex items-center justify-center text-white font-bold text-sm`}>
+                    {user.username?.charAt(0).toUpperCase()}
                 </div>
                 <div className="w-[2px] grow bg-black/10 rounded-full" />
             </div>

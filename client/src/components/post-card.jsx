@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { formatTimeAgo } from "@/lib/utils";
 import { toggleLike } from "@/services/social.service";
-import { isAuthenticated } from "@/services/auth.service";
+import { getUser, isAuthenticated } from "@/services/auth.service";
 
 export default function PostCard({ post, isReply = false, viewPost = false }) {
     const [liked, setLiked] = useState(post.liked);
     const [likeCount, setLikeCount] = useState(post.likes_count || 0);
     const [loading, setLoading] = useState(false);
+
+    const currentUser = getUser();
 
     const avatarLetter = post.username?.charAt(0).toUpperCase();
 
@@ -95,7 +97,7 @@ export default function PostCard({ post, isReply = false, viewPost = false }) {
                         {/* Header */}
                         <div className="flex items-center justify-between w-full">
                             <div className="flex items-center gap-1.5 min-w-0">
-                                <Link to={`/user/${post.username}`} className="font-semibold text-gray-900 truncate">
+                                <Link to={`/profile/${currentUser.user_id}`} className="font-semibold text-gray-900">
                                     {post.username}
                                 </Link>
                                 <span className="text-gray-400 shrink-0">
@@ -133,9 +135,9 @@ export default function PostCard({ post, isReply = false, viewPost = false }) {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-0.5">
                             <div className="flex items-center gap-1.5 min-w-0">
-                                <span className="font-semibold text-gray-900 truncate">
+                                <Link to={`/profile/${currentUser.user_id}`} className="font-semibold text-gray-900">
                                     {post.username}
-                                </span>
+                                </Link>
                                 <span className="text-gray-400 shrink-0">
                                     {formatTimeAgo(post.created_at)}
                                 </span>
@@ -148,7 +150,7 @@ export default function PostCard({ post, isReply = false, viewPost = false }) {
                         {/* Body */}
                         <Link
                             to={`/post/${post.post_id}`}
-                            className="block text-gray-700 whitespace-pre-wrap mb-2.5"
+                            className="block text-gray-700 whitespace-pre-wrap mb-2.5 no-underline"
                         >
                             {post.content}
                         </Link>

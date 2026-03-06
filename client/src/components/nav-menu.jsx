@@ -3,16 +3,30 @@ import NavItem from "./nav-item";
 import { Link, useLocation } from "react-router-dom";
 
 
-export default function NavMenu({ iconSize = 22, onCreateClick }) {
+export default function NavMenu({ iconSize = 22, onCreateClick, user }) {
     const { pathname } = useLocation();
+
+    const resolveUrl = (menuItem) => {
+        if (menuItem.isDynamic && user?.username) {
+            return `/${user.username}`;
+        }
+        return menuItem.url;
+    };
     return (
         <>
             {NAV_MENU_ITEMS.map((menuItem, index) => {
-                const { Icon, isCreate, url } = menuItem;
+                const { Icon, isCreate } = menuItem;
+
+
+                const url = (menuItem.url === '/profile' && user?.username)
+                    ? `/profile/${user.user_id}`
+                    : menuItem.url;
+
 
                 const active = url === "/"
                     ? pathname === "/"
                     : pathname.startsWith(url);
+
 
                 return (
                     <Link
