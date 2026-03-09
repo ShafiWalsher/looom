@@ -6,12 +6,6 @@ import { Link, useLocation } from "react-router-dom";
 export default function NavMenu({ iconSize = 22, onCreateClick, user }) {
     const { pathname } = useLocation();
 
-    const resolveUrl = (menuItem) => {
-        if (menuItem.isDynamic && user?.username) {
-            return `/${user.username}`;
-        }
-        return menuItem.url;
-    };
     return (
         <>
             {NAV_MENU_ITEMS.map((menuItem, index) => {

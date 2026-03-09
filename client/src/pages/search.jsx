@@ -44,13 +44,13 @@ const Search = () => {
     const hasResults = users.length > 0 || posts.length > 0;
 
     return (
-        <div className="min-h-screen w-full flex flex-col items-center py-6 px-4">
-            <h1 className="text-[15px] font-semibold mb-4">Search</h1>
+        <div className="min-h-screen w-full flex flex-col items-center py-6 md:px-4">
+            <h1 className="hidden md:inline-block text-[15px] font-medium mb-4 shrink-0">Search</h1>
 
-            <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs overflow-hidden">
+            <div className="w-full md:bg-white md:border md:border-black/10 md:rounded-3xl md:shadow-xs">
 
                 {/* Search Input — pill style with gray bg */}
-                <div className="px-4 py-3 border-b border-black/10">
+                <div className="px-4 py-3 mb-4">
                     <div className="flex items-center gap-3.5 bg-gray-100 rounded-xl border border-black/20 px-5 py-3">
                         <SearchIcon size={18} className="text-gray-400 shrink-0" />
                         <input
@@ -112,26 +112,14 @@ const Search = () => {
                         <TabsList className="w-full rounded-none border-b border-black/[0.06] bg-transparent h-11 p-0 gap-0">
                             <TabsTrigger
                                 value="users"
-                                className="flex-1 h-full rounded-none text-[13px] font-medium
-                                            text-gray-400 bg-transparent shadow-none
-                                            data-[state=active]:bg-transparent data-[state=active]:shadow-none
-                                            data-[state=active]:text-gray-900 data-[state=active]:font-semibold
-                                            relative after:absolute after:bottom-0 after:left-0 after:right-0
-                                            after:h-[2px] after:bg-gray-900 after:scale-x-0
-                                            data-[state=active]:after:scale-x-100 after:transition-transform after:duration-200"
+                                className="flex-1 py-3 font-medium capitalize rounded-none text-gray-400 bg-transparent shadow-none border-0 outline-none ring-0 border-b border-b-transparent data-[state=active]:text-gray-950 data-[state=active]:border-b-gray-950 data-[state=active]:bg-transparent data-[state=active]:!shadow-none transition-all duration-150"
                             >
                                 People
                                 <span className="ml-1.5 text-[11px] text-gray-300">{users.length}</span>
                             </TabsTrigger>
                             <TabsTrigger
                                 value="posts"
-                                className="flex-1 h-full rounded-none text-[13px] font-medium
-                                            text-gray-400 bg-transparent shadow-none
-                                            data-[state=active]:bg-transparent data-[state=active]:shadow-none
-                                            data-[state=active]:text-gray-900 data-[state=active]:font-semibold
-                                            relative after:absolute after:bottom-0 after:left-0 after:right-0
-                                            after:h-[2px] after:bg-gray-900 after:scale-x-0
-                                            data-[state=active]:after:scale-x-100 after:transition-transform after:duration-200"
+                                className="flex-1 py-3 font-medium capitalize rounded-none text-gray-400 bg-transparent shadow-none border-0 outline-none ring-0 border-b border-b-transparent data-[state=active]:text-gray-950 data-[state=active]:border-b-gray-950 data-[state=active]:bg-transparent data-[state=active]:!shadow-none transition-all duration-150"
                             >
                                 Posts
                                 <span className="ml-1.5 text-[11px] text-gray-300">{posts.length}</span>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getThread } from "@/services/posts.service";
 import PostCard from "@/components/post-card";
 import ReplyForm from "@/components/reply-form";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MoreHorizontal } from "lucide-react";
 
 export default function Thread() {
     const { id } = useParams();
@@ -62,9 +62,9 @@ export default function Thread() {
         );
 
     return (
-        <div className="min-h-screen w-full flex flex-col items-center py-6 px-4">
+        <div className="min-h-screen w-full flex flex-col items-center py-6 md:px-4">
             {/* Header — matches Home's "Home" title row */}
-            <div className="w-full max-w-180 flex items-center mb-4 shrink-0">
+            <div className="relative w-full hidden md:flex items-center mb-4 shrink-0">
                 <button
                     onClick={() => navigate(-1)}
                     className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/5 transition-all duration-150"
@@ -72,10 +72,13 @@ export default function Thread() {
                     <ArrowLeft size={18} className="text-gray-800" />
                 </button>
                 <h1 className="text-[15px] font-medium flex-1 text-center pr-8">Thread</h1>
+                <button className="absolute right-4.5 top-[50%] -translate-y-1/2 w-6 h-6 p-1 flex items-center justify-center transition-all duration-150 bg-white border borde-black/10 rounded-full hover:scale-105 hover:shadow-sm">
+                    <MoreHorizontal size={18} className="text-gray-800 " />
+                </button>
             </div>
 
             {/* Single card — same style as Home's feed card */}
-            <div className="w-full max-w-180 bg-white border border-black/10 rounded-4xl shadow-xs">
+            <div className="w-full md:bg-white md:border md:border-black/10 md:rounded-3xl md:shadow-xs">
 
                 {/* Main post */}
                 <PostCard post={post} viewPost />
