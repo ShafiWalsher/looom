@@ -1,40 +1,30 @@
-import { useState } from "react";
-import { toggleFollow } from "@/services/social.service";
-import { isAuthenticated } from "@/services/auth.service";
+import { getUser } from "@/services/auth.service";
 
-export default function FollowButton({ user }) {
-    const [following, setFollowing] = useState(user.following);
+export default function FollowButton({ user, onFollowChange }) {
 
-    const handleFollow = async () => {
-        if (!isAuthenticated()) {
-            window.location.href = "/login";
-            return;
-        }
+    const currentUser = getUser();
 
-        const next = !following;
-
-        setFollowing(next);
-
-        try {
-            await toggleFollow(
-                user.user_id,
-                next ? "follow" : "unfollow"
-            );
-        } catch {
-            setFollowing(!next);
-        }
-    };
+    if (currentUser.user_id === user.user_id) {
+        return null;
+    }
 
     return (
-        <button
-            onClick={handleFollow}
-            className={`px-4 py-1 rounded-full text-sm font-semibold transition
-      ${following
-                    ? "bg-gray-200 text-gray-800"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+            <button
+                onClick={onFollowChange}
+                className={`text[15px] font-medium w-full py-1.5 rounded-lg cursor-pointer transition-all duration-200 ${user.following
+                    ? "border border-black/20"
                     : "bg-black text-white"
-                }`}
-        >
-            {following ? "Following" : "Follow"}
-        </button>
+                    }`}
+            >
+                {user.following ? "Following" : "Follow"}
+            </button>
+
+            <button
+                className="text[15px] font-medium w-full py-1.5 rounded-lg cursor-pointer border border-black/20"
+            >
+                Mention
+            </button>
+        </div>
     );
 }

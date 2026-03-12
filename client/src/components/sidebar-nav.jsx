@@ -6,6 +6,7 @@ import UserMenu from "./user-menu";
 
 const SidebarNav = ({ onCreateClick }) => {
     const currentUser = getUser();
+
     return (
         <nav className="hidden fixed left-0 top-0 h-full w-fit md:flex flex-col items-center justify-between pt-4 pb-6 px-2">
             <a href="/" className="cursor-pointer">

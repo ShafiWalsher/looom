@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PostCard from "@/components/post-card";
 import { getUserPosts, getUserProfile } from "@/services/profile.service";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import FollowButton from "@/components/follow-button";
+import { getUser } from "@/services/auth.service";
+import { toggleFollow } from "@/services/social.service";
+import { ArrowLeft } from "lucide-react";
 
 export default function Profile() {
     const { id } = useParams();
+    const navigate = useNavigate();
+
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    const currentUser = getUser();
 
     const loadProfile = async () => {
         setLoading(true);
@@ -31,7 +40,40 @@ export default function Profile() {
 
     useEffect(() => {
         loadProfile();
+
     }, [id]);
+
+
+    const handleFollowChange = async () => {
+        if (!currentUser) {
+            window.location.href = "/login";
+            return;
+        }
+
+        const next = !user.following;
+
+        setUser((prev) => ({
+            ...prev,
+            following: next,
+            followers_count: Number(prev.followers_count) + (next ? 1 : -1),
+        }));
+
+        try {
+            const res = await toggleFollow(
+                user.user_id,
+                next ? "follow" : "unfollow"
+            );
+
+            setUser((prev) => ({
+                ...prev,
+                following: res.following,
+                followers_count: res.followers_count
+            }));
+
+        } catch {
+            loadProfile();
+        }
+    };
 
     if (loading)
         return (
@@ -60,8 +102,20 @@ export default function Profile() {
     const replies = posts.filter((p) => !!p.parent_id);
 
     return (
-        <div className="min-h-screen w-full flex flex-col items-center py-6 md:px-4">
-            <h1 className="hidden md:inline-block text-[15px] font-medium mb-4 shrink-0">Profile</h1>
+        <div className="min-h-screen w-full flex flex-col items-center py-6">
+            <div className="relative w-full hidden md:flex items-center justify-center mb-4 shrink-0">
+                {currentUser.user_id !== user.user_id && (
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="absolute left-4.5 top-[50%] -translate-y-1/2 w-6 h-6 p-1 flex items-center justify-center transition-all duration-150 bg-white border borde-black/10 rounded-full hover:scale-105 hover:shadow-sm">
+                        <ArrowLeft size={18} className="text-gray-800 " />
+                    </button>
+                )}
+
+                <h1 className="hidden md:inline-block text-[15px] font-medium mb-4 shrink-0">
+                    {currentUser.user_id === user.user_id ? "Profile" : user.username}
+                </h1>
+            </div>
 
             <div className="w-full md:bg-white md:border md:border-black/10 md:rounded-3xl md:shadow-xs">
                 <div className="px-6 pt-6 pb-5">
@@ -76,24 +130,30 @@ export default function Profile() {
                             {user.username?.[0]?.toUpperCase()}
                         </div>
                     </div>
+                    <p className="mt-5 text-gray-400">
+                        {user.followers_count} followers
+
+                    </p>
+                    <FollowButton
+                        user={user}
+                        onFollowChange={handleFollowChange}
+                    />
                 </div>
 
 
                 {/* Tabs */}
                 <Tabs defaultValue="threads" className="w-full">
-                    <div className="border-b border-black/[0.06]">
-                        <TabsList className="w-full bg-transparent h-auto p-0 rounded-none gap-0">
-                            {["threads", "replies"].map((tab) => (
-                                <TabsTrigger
-                                    key={tab}
-                                    value={tab}
-                                    className="flex-1 py-3 font-medium capitalize rounded-none text-gray-400 bg-transparent shadow-none border-0 outline-none ring-0 border-b border-b-transparent data-[state=active]:text-gray-950 data-[state=active]:border-b-gray-950 data-[state=active]:bg-transparent data-[state=active]:!shadow-none transition-all duration-150"
-                                >
-                                    {tab}
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
-                    </div>
+                    <TabsList className="m-0 w-full bg-transparent p-0 rounded-none gap-0 ">
+                        {["threads", "replies"].map((tab) => (
+                            <TabsTrigger
+                                key={tab}
+                                value={tab}
+                                className="flex-1 py-3 font-medium capitalize rounded-none text-black/40 bg-transparent shadow-none border-0 outline-none ring-0 border-b  border-b-black/20 data-[state=active]:text-black data-[state=active]:border-b-black data-[state=active]:bg-transparent data-[state=active]:!shadow-none transition-all duration-200"
+                            >
+                                {tab}
+                            </TabsTrigger>
+                        ))}
+                    </TabsList>
 
                     {/* Threads tab */}
                     <TabsContent value="threads" className="mt-0">
