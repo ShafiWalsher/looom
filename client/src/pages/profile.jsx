@@ -163,7 +163,7 @@ export default function Profile() {
                                     <div key={post.post_id}>
                                         <PostCard post={post} />
                                         {index < threads.length - 1 && (
-                                            <div className="mx-5 border-t border-black/[0.06]" />
+                                            <div className="mx-5 border-t border-black/10" />
                                         )}
                                     </div>
                                 ))}
@@ -183,7 +183,7 @@ export default function Profile() {
                                     <div key={post.post_id}>
                                         <PostCard post={post} isReply />
                                         {index < replies.length - 1 && (
-                                            <div className="mx-5 border-t border-black/[0.06]" />
+                                            <div className="mx-5 border-t border-black/10" />
                                         )}
                                     </div>
                                 ))}

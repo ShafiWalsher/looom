@@ -3,7 +3,7 @@ import { Search as SearchIcon, SlidersHorizontal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PostCard from '@/components/post-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { search } from '@/services/search.services';
+import { search } from '@/services/search.service';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -136,7 +136,7 @@ const Search = () => {
                                         <li key={user.user_id ?? index}>
                                             <Link
                                                 to={`/profile/${user.username}`}
-                                                className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/[0.06] last:border-b-0"
+                                                className="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors border-b border-black/10 last:border-b-0"
                                             >
                                                 {user.avatar_url ? (
                                                     <img

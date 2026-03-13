@@ -84,7 +84,7 @@ export default function Thread() {
                 <PostCard post={post} viewPost />
 
                 {/* Separator */}
-                <div className="mx-5 border-t border-black/[0.06]" />
+                <div className="mx-5 border-t border-black/10" />
 
                 {/* Reply form */}
                 <div className="px-1">
@@ -94,13 +94,13 @@ export default function Thread() {
                 {/* Replies */}
                 {replies.length > 0 && (
                     <>
-                        <div className="mx-5 border-t border-black/[0.06]" />
+                        <div className="mx-5 border-t border-black/10" />
                         <div className="animate-[fadeIn_0.3s_ease]">
                             {replies.map((reply, index) => (
                                 <div key={reply.post_id}>
                                     <PostCard post={reply} isReply />
                                     {index < replies.length - 1 && (
-                                        <div className="mx-5 border-t border-black/[0.06]" />
+                                        <div className="mx-5 border-t border-black/10" />
                                     )}
                                 </div>
                             ))}
