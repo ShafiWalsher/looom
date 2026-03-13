@@ -23,9 +23,8 @@ export default function ThreadForm() {
     try {
       setLoading(true);
       await createPost({ content });
-      await createPost({ content });
       setContent("");
-      navigate("/");
+      navigate("/", { state: { refresh: Date.now() } });
     } catch (error) {
       setErrorMessage(error.message || "Unable to create post");
     } finally {
