@@ -7,8 +7,9 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/v1/(.*)", "destination": "/src/index.js" },
     {
-      "source": "/(.*)",
+      "source": "/",
       "destination": "/src/index.js"
     }
   ]
