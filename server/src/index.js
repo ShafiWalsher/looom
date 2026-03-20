@@ -58,14 +58,17 @@ app.use("/api/v1/activity", activityRoutes);
 
 app.use(errorHandler); // must be last
 
-const PORT = process.env.PORT || 3000;
-
 // Export the app for Vercel Serverless Functions
 export default app;
 
 // Only start the server if not in production
 if (process.env.NODE_ENV !== "production") {
-  startServer();
+  const PORT = process.env.PORT || 3000;
+  // Separate local start logic
+  pool.query("SELECT 1").then(() => {
+    console.log("Database connected");
+    app.listen(PORT, () => console.log(`Local server on ${PORT}`));
+  });
 }
 
 // STARTUP SEQUENCE
