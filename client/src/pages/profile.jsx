@@ -112,7 +112,7 @@ export default function Profile() {
                     </button>
                 )}
 
-                <h1 className="hidden md:inline-block text-[15px] font-medium mb-4 shrink-0">
+                <h1 className="hidden md:inline-block text-[15px] font-medium shrink-0">
                     {currentUser.user_id === user.user_id ? "Profile" : user.username}
                 </h1>
             </div>

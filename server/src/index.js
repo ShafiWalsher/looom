@@ -12,7 +12,11 @@ import likesFollowRoutes from "./routes/likes-follow.routes.js";
 import { errorHandler } from "./middleware/error.js";
 
 // allow frontend origin
-const allowedOrigins = ["http://localhost:5173", "http://localhost:3001"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3001",
+  process.env.CLIENT_URL,
+].filter(Boolean);
 
 const app = express();
 
@@ -56,6 +60,14 @@ app.use(errorHandler); // must be last
 
 const PORT = process.env.PORT || 3000;
 
+// Export the app for Vercel Serverless Functions
+export default app;
+
+// Only start the server if not in production
+if (process.env.NODE_ENV !== "production") {
+  startServer();
+}
+
 // STARTUP SEQUENCE
 async function startServer() {
   try {
@@ -74,5 +86,3 @@ async function startServer() {
     process.exit(1); // Stop app if DB fails
   }
 }
-
-startServer();
