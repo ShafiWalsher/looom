@@ -20,6 +20,9 @@ const allowedOrigins = [
 
 const app = express();
 
+console.log("CLIENT_URL:", process.env.CLIENT_URL);
+console.log("Allowed Origins:", allowedOrigins);
+
 app.use(
   cors({
     origin: function (origin, callback) {
